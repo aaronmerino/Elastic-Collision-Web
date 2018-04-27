@@ -50,7 +50,7 @@ Ball.prototype.isCollided = function(ball) {
 	
 	var distance = Math.sqrt( (dx * dx) + (dy * dy) );
 	if ( distance <= this.radius + ball.radius ) {
-		let offsetDistance = (this.radius + ball.radius) - distance;
+		let offsetDistance = (this.radius + ball.radius) - distance + 1;
 		
 		if (distance == 0) {
 			distance = 0.001;

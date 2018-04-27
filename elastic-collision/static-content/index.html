@@ -37,23 +37,23 @@
 				
 			}
 			
+			function onChangeRangeRadius(e) {
+				document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
+			}
+			
+			function onChangeRangeMass(e) {
+				document.getElementById("labelMass").innerHTML = document.getElementById("rangeMass").value;
+			}
+			
+			function clearBalls() {
+				balls=[];
+			}
+			
 			window.addEventListener("load", function (event) {
 				var canvas = document.getElementById("canvas");
+				document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
+				document.getElementById("labelMass").innerHTML = document.getElementById("rangeMass").value;
 				
-				canvas.addEventListener('mousedown', function(event){
-					initMousePressX = event.pageX-this.offsetLeft;
-					initMousePressY = event.pageY-this.offsetTop;
-					console.log("mousedown");
-				});
-				
-				canvas.addEventListener('mouseup', function(event){
-					finalMousePressX = event.pageX-this.offsetLeft;
-					finalMousePressY = event.pageY-this.offsetTop;
-					
-					let ball = new Ball(new Pair(initMousePressX, initMousePressY), new Pair((finalMousePressX-initMousePressX)/40, (finalMousePressY-initMousePressY)/40), 20, 10);
-					balls.push(ball);
-					console.log("mouseup");
-				});
 				
 				context = canvas.getContext("2d");
 
@@ -67,9 +67,27 @@
 
 				worldWidth = width; // =context.canvas.width;
 				worldHeight = height; // =context.canvas.height;
+				
+				canvas.addEventListener('mousedown', function(event){
+					initMousePressX = event.pageX-this.offsetLeft-10;
+					initMousePressY = event.pageY-this.offsetTop-10;
+					console.log("mousedown");
+				});
+				
+				canvas.addEventListener('mouseup', function(event){
+					finalMousePressX = event.pageX-this.offsetLeft-10;
+					finalMousePressY = event.pageY-this.offsetTop-10;
+					var mass = parseInt(document.getElementById("rangeMass").value);
+					var radius = parseInt(document.getElementById("rangeRadius").value);
+					var position = new Pair(initMousePressX, initMousePressY);
+					var velocity = new Pair((finalMousePressX-initMousePressX)/40, (finalMousePressY-initMousePressY)/40);
+					let ball = new Ball(position, velocity, radius, mass);
+					balls.push(ball);
+					console.log("mouseup");
+				});
 
 				// create the world (50 balls)
-				for(let i = 0; i < 50 ; i++) { 
+				for(let i = 0; i < 5; i++) { 
 					let rndPosX = getRndInteger(100, worldWidth);
 					let rndPosY = getRndInteger(100, worldHeight);
 					let rndVelX = getRndInteger(1, 3) * (Math.round(Math.random()) * 2 - 1);
@@ -89,6 +107,45 @@
 	</head>
 	
 	<body>
-		<canvas id="canvas" width="300" height="300" style="border:1px solid #000000;"></canvas>
+		<table>
+			<tr>
+				<td>
+					<canvas id="canvas" width="300" height="300" style="border:1px solid #000000;"></canvas>
+				</td>
+				<td>
+					<form>
+						<table>
+							<tr>
+								<td>
+									Radius:
+								</td>
+								<td>
+									<input type="range" id="rangeRadius" name="rangeRadius" min="10" max="50" onchange="onChangeRangeRadius()"></input>
+								</td>
+								<td>
+									<div id="labelRadius"></div> <br>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Mass:
+								</td>
+								<td>
+									<input type="range" id="rangeMass" name="rangeMass" min="10" max="50" onchange="onChangeRangeMass()"></input> 
+								</td>
+								<td>
+									<div id="labelMass"></div> <br>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="button" id="buttonClear" name="buttonClear" onclick="clearBalls()" value="Clear"></input>
+								</td>
+							</tr>
+						</table>
+					</form>
+				</td>
+			</tr>
+		</table>
 	</body>
 </html>
