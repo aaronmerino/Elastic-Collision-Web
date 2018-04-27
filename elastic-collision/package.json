@@ -1,15 +1,19 @@
 {
   "name": "elasticcollisions",
   "version": "1.0.0",
-  "description": "",
   "main": "express-static.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Aaron Merino",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3",
-    "npm": "^6.0.0"
-  }
+    "express": "^4.16.3"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "\u0016https://github.com/aaronmerino/Elastic-Collision-Web.git"
+  },
+  "description": ""
 }
