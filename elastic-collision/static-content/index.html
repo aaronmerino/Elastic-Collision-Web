@@ -39,11 +39,20 @@
 					context.fill();
 				}
 				
+				var radius = parseInt(document.getElementById("rangeRadius").value);
 				
 				if (mouseDown) {
 					context.beginPath();
 					context.moveTo(initMousePressX, initMousePressY);
 					context.lineTo(finalMousePressX, finalMousePressY);
+					context.stroke();
+					
+					context.beginPath();
+					context.arc(initMousePressX, initMousePressY, radius, 0, 2*Math.PI);
+					context.stroke();
+				} else {
+					context.beginPath();
+					context.arc(finalMousePressX, finalMousePressY, radius, 0, 2*Math.PI);
 					context.stroke();
 				}
 			}
@@ -124,6 +133,7 @@
 				canvas.addEventListener('mousemove', function(event){
 					finalMousePressX = event.pageX-this.offsetLeft-10;
 					finalMousePressY = event.pageY-this.offsetTop-10;
+					update();
 				});
 				
 				
