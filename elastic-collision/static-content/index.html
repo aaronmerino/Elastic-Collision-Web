@@ -12,39 +12,57 @@
 		<table>
 			<tr>
 				<td>
-					<canvas id="canvas" width="300" height="300"></canvas>
+					<div>
+						<canvas id="canvas" width="300" height="300"></canvas>
+					</div>
 				</td>
 				<td>
 					<form>
 						<table>
 							<tr>
-								<canvas id="canvasBallViewer" width="200" height="200"></canvas>
+								<div>
+									<canvas id="canvasBallViewer" width="200" height="200"></canvas>
+								</div>
 							</tr>
 							<tr>
 								<td>
-									Radius:
+									<div class="label">
+										radius
+									</div>
 								</td>
 								<td>
-									<input type="range" id="rangeRadius" name="rangeRadius" value="10" min="10" max="50" oninput="onChangeRangeRadius()"></input>
+									<div>
+										<input type="range" id="rangeRadius" name="rangeRadius" value="10" min="10" max="50" oninput="onChangeRangeRadius()"></input>
+									</div>
 								</td>
 								<td>
-									<output id="labelRadius" name="labelRadius" value="10"></output> <br>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									Mass:
-								</td>
-								<td>
-									<input type="range" id="rangeMass" name="rangeMass" value="10" min="10" max="50" oninput="onChangeRangeMass()"></input>
-								</td>
-								<td>
-									<output id="labelMass" name="labelMass" value="10"></output> <br>
+									<div>
+										<output id="labelRadius" name="labelRadius" value="10"></output> <br>
+									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									<input type="button" id="buttonClear" name="buttonClear" onclick="clearBalls()" value="Clear"></input>
+									<div class="label">
+										mass
+									</div>
+								</td>
+								<td>
+									<div>
+										<input type="range" id="rangeMass" name="rangeMass" value="10" min="10" max="50" oninput="onChangeRangeMass()"></input>
+									</div>
+								</td>
+								<td>
+									<div>
+										<output id="labelMass" name="labelMass" value="10"></output> <br>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div>
+										<input type="button" id="buttonClear" name="buttonClear" onclick="clearBalls()" value="clear"></input>
+									</div>
 								</td>
 							</tr>
 						</table>
