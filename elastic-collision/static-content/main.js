@@ -21,8 +21,8 @@ function World(container) {
 	this.finalMousePressY = 0;
 
 	this.canvas.addEventListener('mousedown', (event) => {
-		this.initMousePressX = event.pageX - this.offsetLeft - 10;
-		this.initMousePressY = event.pageY - this.offsetTop - 10;
+		this.initMousePressX = event.pageX - this.canvas.offsetLeft - 10;
+		this.initMousePressY = event.pageY - this.canvas.offsetTop - 10;
 		this.mouseDown = true;
 	});
 
@@ -38,8 +38,8 @@ function World(container) {
 	});
 
 	this.canvas.addEventListener('mousemove', (event) => {
-		this.finalMousePressX = event.pageX - this.offsetLeft - 10;
-		this.finalMousePressY = event.pageY - this.offsetTop - 10;
+		this.finalMousePressX = event.pageX - this.canvas.offsetLeft - 10;
+		this.finalMousePressY = event.pageY - this.canvas.offsetTop - 10;
 		this.render();
 	});
 	container.insertBefore(this.canvas, container.childNodes[0]);
@@ -79,12 +79,12 @@ World.prototype.render = function() {
 		this.context.stroke();
 
 		this.context.beginPath();
-		this.context.arc(this.initMousePressX, this.initMousePressY, this.radius, 0, 2*Math.PI);
+		this.context.arc(this.initMousePressX, this.initMousePressY, radius, 0, 2*Math.PI);
 		this.context.strokeStyle = "#cfffff";
 		this.context.stroke();
 	} else {
 		this.context.beginPath();
-		this.context.arc(this.finalMousePressX, this.finalMousePressY, this.radius, 0, 2*Math.PI);
+		this.context.arc(this.finalMousePressX, this.finalMousePressY, radius, 0, 2*Math.PI);
 		this.context.strokeStyle = "#cfffff";
 		this.context.stroke();
 	}

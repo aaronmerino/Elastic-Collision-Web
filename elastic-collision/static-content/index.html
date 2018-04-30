@@ -26,11 +26,12 @@
 			}
 
 			window.addEventListener("load", function (event) {
-				world = new World(document.getElementById("canvas"));
+				world = new World(document.getElementById("canvasDiv"));
 				document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
 				document.getElementById("labelMass").innerHTML = document.getElementById("rangeMass").value;
-				
+
 				updateBallViewer(document.getElementById("canvasBallViewer").getContext("2d"));
+				console.log("test");
 				setInterval(() => {
 					world.tick();
 					world.render();
@@ -43,7 +44,7 @@
 		<table>
 			<tr>
 				<td>
-					<div id = "canvas">
+					<div id="canvasDiv">
 						<!--<canvas id="canvas" width="300" height="300"></canvas>-->
 					</div>
 				</td>
