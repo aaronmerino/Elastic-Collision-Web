@@ -49,6 +49,15 @@ World.prototype.clearBalls = function() {
 	this.balls = [];
 }
 
+World.prototype.resizeCanvas = function() {
+	this.width = window.innerWidth - 400;
+	this.height = window.innerHeight - 100;
+	this.canvas.style.width = this.width + 'px';
+	this.canvas.style.height = this.height + 'px';
+	this.canvas.width = this.width;
+	this.canvas.height = this.height;
+}
+
 /*
 	move all elements in the world in one tick
 */

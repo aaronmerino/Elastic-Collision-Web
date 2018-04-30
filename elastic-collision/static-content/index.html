@@ -30,8 +30,11 @@
 				document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
 				document.getElementById("labelMass").innerHTML = document.getElementById("rangeMass").value;
 
+				this.addEventListener('resize', function () {
+					world.resizeCanvas();
+				});
+
 				updateBallViewer(document.getElementById("canvasBallViewer").getContext("2d"));
-				console.log("test");
 				setInterval(() => {
 					world.tick();
 					world.render();

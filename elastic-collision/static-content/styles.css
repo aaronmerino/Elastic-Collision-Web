@@ -28,12 +28,30 @@ input[type=range] {
 	-moz-appearance: none;
   appearance: none;
   width: 94%;
-  height: 15px; /* Specified height */
-  outline: none; /* Remove outline */
+  height: 15px;
+  outline: none;
   opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
   -webkit-transition: .2s; /* 0.2 seconds transition on hover */
 	-moz-transition: .2s;
   transition: opacity .2s;
+}
+
+input[type=range]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+  appearance: none;
+	width: 20px;
+	height: 20px;
+	border-radius: 30%;
+	background: #373d48;
+	cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+	width: 20px;
+	height: 20px;
+	border-radius: 30%;
+	background: #373d48;
+	cursor: pointer;
 }
 
 input[type=button] {

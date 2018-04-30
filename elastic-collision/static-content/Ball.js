@@ -36,18 +36,22 @@ Ball.prototype.move = function() {
 
 	if(this.position.x - this.radius < 0){
 		this.velocity.x = Math.abs(this.velocity.x);
+		this.position.x = this.radius;
 	}
 
 	if(this.position.x + this.radius > this.world.width){
 		this.velocity.x = -Math.abs(this.velocity.x);
+		this.position.x = this.world.width - this.radius;
 	}
 
 	if(this.position.y - this.radius < 0){
 		this.velocity.y = Math.abs(this.velocity.y);
+		this.position.y = this.radius;
 	}
 
 	if(this.position.y + this.radius > this.world.height){
 		this.velocity.y = -Math.abs(this.velocity.y);
+		this.position.y = this.world.height - this.radius;
 	}
 }
 
