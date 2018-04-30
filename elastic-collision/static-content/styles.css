@@ -48,3 +48,7 @@ input[type=button] {
 	text-align: center;
 	color: #373d48;
 }
+
+input[type=button]:hover {
+	color: #ffffff;
+}

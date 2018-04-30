@@ -1,75 +1,99 @@
-var width = 0, height = 0;
-var widthBallViewer = 0, heightBallViewer = 0;
-var mouseDown = false;
-var context;
-var contextBallViewer;
+// SEAN (허션) - process (prod. BYAT)
+// pretty good song
 
-var balls = [];
-var initMousePressX = 0, initMousePressY = 0;
-var finalMousePressX = 0, finalMousePressY = 0;
+function World(container) {
+	this.balls = [];
+	this.canvas = document.createElement("canvas");
+	this.context = this.canvas.getContext("2d");
+	this.width = window.innerWidth - 400;
+	this.height = window.innerHeight - 100;
 
-function getRndInteger(min, max) {
-	return Math.floor(Math.random() * (max - min + 1) ) + min;
+	this.canvas.style.width = this.width + 'px';
+	this.canvas.style.height = this.height + 'px';
+	this.canvas.width = this.width;
+	this.canvas.height = this.height;
+
+
+	this.mouseDown = false;
+	this.initMousePressX = 0;
+	this.initMousePressY = 0;
+	this.finalMousePressX = 0;
+	this.finalMousePressY = 0;
+
+	this.canvas.addEventListener('mousedown', (event) => {
+		this.initMousePressX = event.pageX - this.offsetLeft - 10;
+		this.initMousePressY = event.pageY - this.offsetTop - 10;
+		this.mouseDown = true;
+	});
+
+	this.canvas.addEventListener('mouseup', (event) => {
+		var mass = parseInt(document.getElementById("rangeMass").value);
+		var radius = parseInt(document.getElementById("rangeRadius").value);
+		var position = new Pair(this.initMousePressX, this.initMousePressY);
+		var velocity = new Pair((this.finalMousePressX - this.initMousePressX) / 40,
+														(this.finalMousePressY - this.initMousePressY) / 40);
+		var ball = new Ball(this, position, velocity, radius, mass);
+		this.mouseDown = false;
+		this.balls.push(ball);
+	});
+
+	this.canvas.addEventListener('mousemove', (event) => {
+		this.finalMousePressX = event.pageX - this.offsetLeft - 10;
+		this.finalMousePressY = event.pageY - this.offsetTop - 10;
+		this.render();
+	});
+
+	container.insertBefore(this.canvas, container.childNodes[0]);
 }
 
-function update(){
-	// clear the screen 
-	context.clearRect(0, 0, width, height);
-	
-	for (let b1 = 0; b1 < balls.length; b1++) {
-		console.log("here");
-		balls[b1].move();
-		for (let b2 = 0; b2 < balls.length; b2++) {
-			if (b2 != b1 && balls[b1].isCollided(balls[b2])) {
-				balls[b1].setVelocityAfterCollision(balls[b2]);
+World.prototype.clearBalls = function() {
+	this.balls = [];
+}
+
+/*
+	move all elements in the world in one tick
+*/
+World.prototype.tick = function() {
+	for (let b1 = 0; b1 < this.balls.length; b1++) {
+		this.balls[b1].move();
+		for (let b2 = 0; b2 < this.balls.length; b2++) {
+			if (b2 != b1 && this.balls[b1].isCollided(this.balls[b2])) {
+				this.balls[b1].setVelocityAfterCollision(this.balls[b2]);
 			}
 		}
-		context.fillStyle = "#003E3E";
-		context.beginPath();
-		context.arc(balls[b1].position.x, balls[b1].position.y, balls[b1].radius, 0, 2*Math.PI);
-		
-		context.fill();
 	}
-	
+}
+
+World.prototype.render = function() {
+	this.context.clearRect(0, 0, this.width, this.height);
+
+	for (let i = 0; i < this.balls.length; i++) {
+		this.balls[i].render();
+	}
+
 	var radius = parseInt(document.getElementById("rangeRadius").value);
-	
-	if (mouseDown) {
-		context.beginPath();
-		context.moveTo(initMousePressX, initMousePressY);
-		context.lineTo(finalMousePressX, finalMousePressY);
-		context.stroke();
-		
-		context.beginPath();
-		context.arc(initMousePressX, initMousePressY, radius, 0, 2*Math.PI);
-		context.strokeStyle = "#cfffff";
-		context.stroke();
+
+	if (this.mouseDown) {
+		this.context.beginPath();
+		this.context.moveTo(this.initMousePressX, this.initMousePressY);
+		this.context.lineTo(this.finalMousePressX, this.finalMousePressY);
+		this.context.stroke();
+
+		this.context.beginPath();
+		this.context.arc(this.initMousePressX, this.initMousePressY, this.radius, 0, 2*Math.PI);
+		this.context.strokeStyle = "#cfffff";
+		this.context.stroke();
 	} else {
-		context.beginPath();
-		context.arc(finalMousePressX, finalMousePressY, radius, 0, 2*Math.PI);
-		context.strokeStyle = "#cfffff";
-		context.stroke();
+		this.context.beginPath();
+		this.context.arc(this.finalMousePressX, this.finalMousePressY, this.radius, 0, 2*Math.PI);
+		this.context.strokeStyle = "#cfffff";
+		this.context.stroke();
 	}
 }
 
-function updateBallViewer() {
-	contextBallViewer.clearRect(0, 0, widthBallViewer, heightBallViewer);
-	contextBallViewer.fillStyle = "#003E3E";
-	contextBallViewer.beginPath();
-	contextBallViewer.arc(widthBallViewer/2, heightBallViewer/2, document.getElementById("rangeRadius").value, 0, 2*Math.PI);
-	contextBallViewer.fill();
-}
-
-function onChangeRangeRadius(e) {
-	document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
-	updateBallViewer();
-}
-
-function onChangeRangeMass(e) {
-	document.getElementById("labelMass").innerHTML = document.getElementById("rangeMass").value;
-}
-
+/*
 function createRandomBalls(amount) {
-	for(let i = 0; i < 5; i++) { 
+	for(let i = 0; i < 5; i++) {
 		let rndPosX = getRndInteger(100, worldWidth);
 		let rndPosY = getRndInteger(100, worldHeight);
 		let rndVelX = getRndInteger(1, 3) * (Math.round(Math.random()) * 2 - 1);
@@ -79,63 +103,4 @@ function createRandomBalls(amount) {
 		balls.push(b);
 	}
 }
-
-function clearBalls() {
-	balls=[];
-}
-
-window.addEventListener("load", function (event) {
-	var canvas = document.getElementById("canvas");
-	var canvasBallViewer = document.getElementById("canvasBallViewer");
-	
-	document.getElementById("labelRadius").value = document.getElementById("rangeRadius").value;
-	document.getElementById("labelMass").value = document.getElementById("rangeMass").value;
-	
-	
-	context = canvas.getContext("2d");
-	contextBallViewer = canvasBallViewer.getContext("2d");
-
-	width = window.innerWidth - 400;
-	height = window.innerHeight - 100;
-	widthBallViewer = canvasBallViewer.width;
-	heightBallViewer = canvasBallViewer.height;
-	
-	canvas.style.width = width + 'px';
-	canvas.style.height = height + 'px';
-	canvas.width = width;
-	canvas.height = height;
-
-	worldWidth = width; // =context.canvas.width;
-	worldHeight = height; // =context.canvas.height;
-	
-	canvas.addEventListener('mousedown', function(event){
-		mouseDown = true;
-		initMousePressX = event.pageX-this.offsetLeft-10;
-		initMousePressY = event.pageY-this.offsetTop-10;
-	});
-	
-	canvas.addEventListener('mouseup', function(event){
-		mouseDown = false;
-		var mass = parseInt(document.getElementById("rangeMass").value);
-		var radius = parseInt(document.getElementById("rangeRadius").value);
-		var position = new Pair(initMousePressX, initMousePressY);
-		var velocity = new Pair((finalMousePressX-initMousePressX)/40, (finalMousePressY-initMousePressY)/40);
-		var ball = new Ball(position, velocity, radius, mass);
-		balls.push(ball);
-	});
-	
-	canvas.addEventListener('mousemove', function(event){
-		finalMousePressX = event.pageX-this.offsetLeft-10;
-		finalMousePressY = event.pageY-this.offsetTop-10;
-		update();
-	});
-	
-	
-	// create 5 balls
-	createRandomBalls(5);
-	
-	updateBallViewer();
-	
-	// let the world run
-	setInterval(update, 10);
-});
+*/

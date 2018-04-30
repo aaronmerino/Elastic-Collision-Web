@@ -15,11 +15,19 @@ Pair.prototype.normalize = function(){
 	this.y = this.y / magnitude;
 }
 
-function Ball(position, velocity, radius, mass) {
+function Ball(world, position, velocity, radius, mass) {
+	this.world = world;
 	this.position = position;
 	this.velocity = velocity;
 	this.radius = radius;
 	this.mass = mass;
+}
+
+Ball.prototype.render = function() {
+	this.world.context.fillStyle = "#003E3E";
+	this.world.context.beginPath();
+	this.world.context.arc(this.position.x, this.position.y, this.radius, 0, 2*Math.PI);
+	this.world.context.fill();
 }
 
 Ball.prototype.move = function() {
