@@ -38,7 +38,7 @@ Ball.prototype.move = function() {
 		this.velocity.x = Math.abs(this.velocity.x);
 	}
 
-	if(this.position.x + this.radius > worldWidth){
+	if(this.position.x + this.radius > this.world.width){
 		this.velocity.x = -Math.abs(this.velocity.x);
 	}
 
@@ -46,15 +46,15 @@ Ball.prototype.move = function() {
 		this.velocity.y = Math.abs(this.velocity.y);
 	}
 
-	if(this.position.y + this.radius > worldHeight){
+	if(this.position.y + this.radius > this.world.height){
 		this.velocity.y = -Math.abs(this.velocity.y);
 	}
 }
 
 
 Ball.prototype.isCollided = function(ball) {
-	var dx = (this.position.x) - (ball.position.x);
-	var dy = (this.position.y) - (ball.position.y);
+	var dx = this.position.x - ball.position.x;
+	var dy = this.position.y - ball.position.y;
 
 	var distance = Math.sqrt( (dx * dx) + (dy * dy) );
 	if ( distance <= this.radius + ball.radius ) {

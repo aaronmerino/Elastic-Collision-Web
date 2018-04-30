@@ -9,16 +9,16 @@
 		<script type="text/javascript">
 			var world;
 			function updateBallViewer(context) {
-				context.clearRect(0, 0, widthBallViewer, heightBallViewer);
+				context.clearRect(0, 0, 200, 200);
 				context.fillStyle = "#003E3E";
 				context.beginPath();
-				context.arc(widthBallViewer/2, heightBallViewer/2, document.getElementById("rangeRadius").value, 0, 2*Math.PI);
+				context.arc(200/2, 200/2, document.getElementById("rangeRadius").value, 0, 2*Math.PI);
 				context.fill();
 			}
 
 			function onChangeRangeRadius(e) {
 				document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
-				updateBallViewer();
+				updateBallViewer(document.getElementById("canvasBallViewer").getContext("2d"));
 			}
 
 			function onChangeRangeMass(e) {
@@ -27,7 +27,9 @@
 
 			window.addEventListener("load", function (event) {
 				world = new World(document.getElementById("canvas"));
-
+				document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
+				document.getElementById("labelMass").innerHTML = document.getElementById("rangeMass").value;
+				
 				updateBallViewer(document.getElementById("canvasBallViewer").getContext("2d"));
 				setInterval(() => {
 					world.tick();

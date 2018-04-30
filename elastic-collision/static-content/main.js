@@ -42,7 +42,6 @@ function World(container) {
 		this.finalMousePressY = event.pageY - this.offsetTop - 10;
 		this.render();
 	});
-
 	container.insertBefore(this.canvas, container.childNodes[0]);
 }
 
@@ -91,16 +90,14 @@ World.prototype.render = function() {
 	}
 }
 
-/*
-function createRandomBalls(amount) {
+World.prototype.createRandomBalls = function(amount) {
 	for(let i = 0; i < 5; i++) {
 		let rndPosX = getRndInteger(100, worldWidth);
 		let rndPosY = getRndInteger(100, worldHeight);
 		let rndVelX = getRndInteger(1, 3) * (Math.round(Math.random()) * 2 - 1);
 		let rndVelY = getRndInteger(1, 3) * (Math.round(Math.random()) * 2 - 1);
 		let rndRadius = getRndInteger(10, 40);
-		let b = new Ball(new Pair(rndPosX, rndPosY), new Pair(rndVelX, rndVelY), rndRadius, 10);
-		balls.push(b);
+		let b = new Ball(this, new Pair(rndPosX, rndPosY), new Pair(rndVelX, rndVelY), rndRadius, 10);
+		this.balls.push(b);
 	}
 }
-*/
