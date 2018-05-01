@@ -55,12 +55,11 @@ Ball.prototype.move = function() {
 	}
 }
 
-
 Ball.prototype.isCollided = function(ball) {
 	var dx = this.position.x - ball.position.x;
 	var dy = this.position.y - ball.position.y;
 
-	var distance = Math.sqrt( (dx * dx) + (dy * dy) );
+	var distance = Math.sqrt((dx * dx) + (dy * dy));
 	if ( distance <= this.radius + ball.radius ) {
 		let offsetDistance = (this.radius + ball.radius) - distance + 1;
 

@@ -3,6 +3,7 @@
 
 function World(container) {
 	this.balls = [];
+	this.drawLines = true;
 	this.canvas = document.createElement("canvas");
 	this.context = this.canvas.getContext("2d");
 	this.width = window.innerWidth - 400;
@@ -65,7 +66,7 @@ World.prototype.tick = function() {
 	for (let b1 = 0; b1 < this.balls.length; b1++) {
 		this.balls[b1].move();
 		for (let b2 = 0; b2 < this.balls.length; b2++) {
-			if (b2 != b1 && this.balls[b1].isCollided(this.balls[b2])) {
+			if (b1 !== b2 && this.balls[b1].isCollided(this.balls[b2])) {
 				this.balls[b1].setVelocityAfterCollision(this.balls[b2]);
 			}
 		}
@@ -75,6 +76,24 @@ World.prototype.tick = function() {
 World.prototype.render = function() {
 	this.context.clearRect(0, 0, this.width, this.height);
 
+	if (this.drawLines) {
+		for (let b1 = 0; b1 < this.balls.length; b1++) {
+			for (let b2 = b1+1; b2 < this.balls.length; b2++) {
+				var dx = this.balls[b1].position.x - this.balls[b2].position.x;
+				var dy = this.balls[b1].position.y - this.balls[b2].position.y;
+				var thickness = 1 / Math.sqrt((dx * dx) + (dy * dy))*200;
+				if (thickness > 0.2) {
+					this.context.beginPath();
+					this.context.lineWidth = thickness > 2 ? 2 : thickness;
+					this.context.strokeStyle = "#003E3E";
+					this.context.moveTo(this.balls[b1].position.x, this.balls[b1].position.y);
+					this.context.lineTo(this.balls[b2].position.x, this.balls[b2].position.y);
+					this.context.stroke();
+				}
+			}
+		}
+	}
+
 	for (let i = 0; i < this.balls.length; i++) {
 		this.balls[i].render();
 	}
@@ -83,16 +102,18 @@ World.prototype.render = function() {
 
 	if (this.mouseDown) {
 		this.context.beginPath();
+		this.context.lineWidth = 1;
+		this.context.strokeStyle = "#cfffff";
 		this.context.moveTo(this.initMousePressX, this.initMousePressY);
 		this.context.lineTo(this.finalMousePressX, this.finalMousePressY);
 		this.context.stroke();
 
 		this.context.beginPath();
 		this.context.arc(this.initMousePressX, this.initMousePressY, radius, 0, 2*Math.PI);
-		this.context.strokeStyle = "#cfffff";
 		this.context.stroke();
 	} else {
 		this.context.beginPath();
+		this.context.lineWidth = 1;
 		this.context.arc(this.finalMousePressX, this.finalMousePressY, radius, 0, 2*Math.PI);
 		this.context.strokeStyle = "#cfffff";
 		this.context.stroke();

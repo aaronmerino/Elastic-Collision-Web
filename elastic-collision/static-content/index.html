@@ -16,19 +16,30 @@
 				context.fill();
 			}
 
-			function onChangeRangeRadius(e) {
-				document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
-				updateBallViewer(document.getElementById("canvasBallViewer").getContext("2d"));
-			}
-
-			function onChangeRangeMass(e) {
-				document.getElementById("labelMass").innerHTML = document.getElementById("rangeMass").value;
-			}
-
 			window.addEventListener("load", function (event) {
 				world = new World(document.getElementById("canvasDiv"));
-				document.getElementById("labelRadius").innerHTML = document.getElementById("rangeRadius").value;
-				document.getElementById("labelMass").innerHTML = document.getElementById("rangeMass").value;
+				var checkBoxLines = document.getElementById("checkBoxLines");
+				var rangeRadius = document.getElementById("rangeRadius");
+				var rangeMass = document.getElementById("rangeMass");
+				var labelRadius = document.getElementById("labelRadius");
+				var labelMass = document.getElementById("labelMass");
+
+				labelRadius.innerHTML = rangeRadius.value;
+				labelMass.innerHTML = rangeMass.value;
+				world.drawLines = checkBoxLines.checked;
+
+				rangeRadius.addEventListener('input', function () {
+					labelRadius.innerHTML = rangeRadius.value;
+					updateBallViewer(document.getElementById("canvasBallViewer").getContext("2d"));
+				});
+
+				rangeMass.addEventListener('input', function () {
+					labelMass.innerHTML = rangeMass.value;
+				});
+
+				checkBoxLines.addEventListener('input', function () {
+					world.drawLines = this.checked;
+				});
 
 				this.addEventListener('resize', function () {
 					world.resizeCanvas();
@@ -47,9 +58,7 @@
 		<table>
 			<tr>
 				<td>
-					<div id="canvasDiv">
-						<!--<canvas id="canvas" width="300" height="300"></canvas>-->
-					</div>
+					<div id="canvasDiv"></div>
 				</td>
 				<td>
 					<form>
@@ -61,13 +70,19 @@
 							</tr>
 							<tr>
 								<td>
-									<div class="label">
-										radius
-									</div>
+									<label for="checkBoxLines">lines</label>
+								</td>
+								<td>
+										<input type="checkbox" id="checkBoxLines" name="checkBoxLines" oninput="onChangeCheckBoxLines()"></input>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<label for="rangeRadius">radius</label>
 								</td>
 								<td>
 									<div>
-										<input type="range" id="rangeRadius" name="rangeRadius" value="10" min="10" max="50" oninput="onChangeRangeRadius()"></input>
+										<input type="range" id="rangeRadius" name="rangeRadius" value="5" min="5" max="50" oninput="onChangeRangeRadius()"></input>
 									</div>
 								</td>
 								<td>
@@ -78,13 +93,11 @@
 							</tr>
 							<tr>
 								<td>
-									<div class="label">
-										mass
-									</div>
+									<label for="rangeMass">mass</label>
 								</td>
 								<td>
 									<div>
-										<input type="range" id="rangeMass" name="rangeMass" value="10" min="10" max="50" oninput="onChangeRangeMass()"></input>
+										<input type="range" id="rangeMass" name="rangeMass" value="5" min="5" max="50" oninput="onChangeRangeMass()"></input>
 									</div>
 								</td>
 								<td>

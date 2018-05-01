@@ -12,7 +12,7 @@ canvas {
 	border-color: #00001a;
 }
 
-.label, output {
+label, output {
 	border-radius: 2px;
 	border-width: 2px;
 	border-style: solid;
@@ -39,7 +39,7 @@ input[type=range] {
 input[type=range]::-webkit-slider-thumb {
 	-webkit-appearance: none;
   appearance: none;
-	width: 20px;
+	width: 10px;
 	height: 20px;
 	border-radius: 30%;
 	background: #373d48;
@@ -47,7 +47,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 input[type=range]::-moz-range-thumb {
-	width: 20px;
+	width: 10px;
 	height: 20px;
 	border-radius: 30%;
 	background: #373d48;
