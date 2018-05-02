@@ -34,6 +34,7 @@ label, output {
 	color: #373d48;
 }
 
+
 input[type=range] {
 	-webkit-appearance: none;  /* Override default CSS styles */
 	-moz-appearance: none;
