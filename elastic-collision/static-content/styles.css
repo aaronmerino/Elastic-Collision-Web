@@ -17,13 +17,7 @@ canvas {
 	border-color: #00001a;
 }
 
-#ballViewerDiv {
-	position: relative;
-	top: 200px;
-}
-
 .settingsBallDiv {
-	position: absolute;
 	background-color: #373d48;
 	border-radius: 2px;
 }

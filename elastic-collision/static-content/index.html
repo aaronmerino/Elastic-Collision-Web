@@ -4,8 +4,10 @@
 		<meta charset="UTF-8"></meta>
 		<title> Elastic Collision </title>
 		<link rel="stylesheet" href="styles.css">
+		<script type="text/javascript" src="Pair.js"></script>
 		<script type="text/javascript" src="Ball.js"></script>
-		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="Attractor.js"></script>
+		<script type="text/javascript" src="World.js"></script>
 		<script type="text/javascript">
 			var world;
 			function updateBallViewer(context) {
@@ -43,6 +45,11 @@
 
 				this.addEventListener('resize', function () {
 					world.resizeCanvas();
+					/*
+					var ballViewerDiv = document.getElementById("ballViewerDiv");
+					ballViewerDiv.style.left = world.canvas.width + 'px';
+					ballViewerDiv.style.top = world.canvas.height +100 + 'px';
+					*/
 				});
 
 				updateBallViewer(document.getElementById("canvasBallViewer").getContext("2d"));
