@@ -2,6 +2,11 @@ body {
 	font-family: Helvetica, sans-serif;
 	font-size: 15px;
 	background-color: #0b1d28;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
+	user-select:none;
+	-o-user-select:none;
 }
 
 canvas {
