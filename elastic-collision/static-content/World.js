@@ -3,6 +3,11 @@
 
 function World(container) {
 	this.balls = [];
+	this.attractors = [];
+	this.attractors.push(new Attractor(this, new Pair(1000, 200), 5));
+	this.attractors.push(new Attractor(this, new Pair(400, 200), 5));
+	this.attractors.push(new Attractor(this, new Pair(1000, 500), 5));
+	this.attractors.push(new Attractor(this, new Pair(400, 500), 5));
 	this.drawLines = true;
 	this.canvas = document.createElement("canvas");
 	this.context = this.canvas.getContext("2d");
@@ -32,8 +37,11 @@ function World(container) {
 
 	window.addEventListener('mousedown', (event) => {
 		if (!this.mouseOut) {
-			this.initMousePressX = event.pageX - this.canvas.offsetLeft - 10;
-			this.initMousePressY = event.pageY - this.canvas.offsetTop - 10;
+			var rect = this.canvas.getBoundingClientRect();
+			var scaleX = this.canvas.width / rect.width;
+			var scaleY = this.canvas.height / rect.height;
+			this.initMousePressX = (event.pageX - rect.left) * scaleX;
+			this.initMousePressY = (event.pageY - rect.top) * scaleY;
 
 			this.mouseDown = true;
 		}
@@ -53,8 +61,11 @@ function World(container) {
 	});
 
 	this.canvas.addEventListener('mousemove', (event) => {
-		this.finalMousePressX = event.pageX - this.canvas.offsetLeft - 10;
-		this.finalMousePressY = event.pageY - this.canvas.offsetTop - 10;
+		var rect = this.canvas.getBoundingClientRect();
+		var scaleX = this.canvas.width / rect.width;
+		var scaleY = this.canvas.height / rect.height;
+		this.finalMousePressX = (event.pageX - rect.left) * scaleX;
+		this.finalMousePressY = (event.pageY - rect.top) * scaleY;
 		this.render();
 	});
 	container.insertBefore(this.canvas, container.childNodes[0]);
@@ -77,6 +88,10 @@ World.prototype.resizeCanvas = function() {
 	move all elements in the world in one tick
 */
 World.prototype.tick = function() {
+	for (let i = 0; i < this.attractors.length; i++) {
+		this.attractors[i].attractBalls();
+	}
+
 	for (let b1 = 0; b1 < this.balls.length; b1++) {
 		this.balls[b1].move();
 		for (let b2 = 0; b2 < this.balls.length; b2++) {
@@ -110,6 +125,10 @@ World.prototype.render = function() {
 
 	for (let i = 0; i < this.balls.length; i++) {
 		this.balls[i].render();
+	}
+
+	for (let i = 0; i < this.attractors.length; i++) {
+		this.attractors[i].render();
 	}
 
 	var radius = parseInt(document.getElementById("rangeRadius").value);
