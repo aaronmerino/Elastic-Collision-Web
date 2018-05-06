@@ -4,14 +4,24 @@ function Attractor(world, position, mass) {
     this.world = world;
     this.position = position;
     this.mass = mass;
-    this.radius = 5 + mass;
+    this.radius = 20 + mass;
+}
+
+Attractor.prototype.isMouseOver = function(mouseX, mouseY) {
+    var dx = this.position.x - mouseX;
+	var dy = this.position.y - mouseY;
+
+	var distance = Math.sqrt((dx * dx) + (dy * dy));
+	return distance <= this.radius;
 }
 
 Attractor.prototype.render = function() {
-	this.world.context.fillStyle = "#003872";
+	this.world.context.strokeStyle = "#003872";
 	this.world.context.beginPath();
-	this.world.context.arc(this.position.x, this.position.y, this.radius, 0, 2*Math.PI);
-	this.world.context.fill();
+    this.world.context.lineWidth = 2;
+	this.world.context.arc(this.position.x, this.position.y, this.radius, 0,
+        2*Math.PI);
+	this.world.context.stroke();
 }
 
 Attractor.prototype.attractBalls = function() {

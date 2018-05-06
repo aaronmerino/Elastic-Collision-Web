@@ -4,21 +4,24 @@
 function World(container) {
 	this.balls = [];
 	this.attractors = [];
-	this.attractors.push(new Attractor(this, new Pair(1000, 200), 5));
-	this.attractors.push(new Attractor(this, new Pair(400, 200), 5));
-	this.attractors.push(new Attractor(this, new Pair(1000, 500), 5));
-	this.attractors.push(new Attractor(this, new Pair(400, 500), 5));
+	this.attractors.push(new Attractor(this, new Pair(1000, 200), 2));
+	this.attractors.push(new Attractor(this, new Pair(400, 200), 2));
+
 	this.drawLines = true;
 	this.canvas = document.createElement("canvas");
 	this.context = this.canvas.getContext("2d");
 	this.width = window.innerWidth - 400;
-	this.height = window.innerHeight - 100;
+	this.height = window.innerHeight - 50;
 
 	this.canvas.style.width = this.width + 'px';
 	this.canvas.style.height = this.height + 'px';
 	this.canvas.width = this.width;
 	this.canvas.height = this.height;
 
+	this.mouseGrab = false;
+	this.mouseGrabbed = null;
+	this.mouseGrabOffsetX = 0;
+	this.mouseGrabOffsetY = 0;
 
 	this.mouseDown = false;
 	this.mouseOut = false;
@@ -43,21 +46,34 @@ function World(container) {
 			this.initMousePressX = (event.pageX - rect.left) * scaleX;
 			this.initMousePressY = (event.pageY - rect.top) * scaleY;
 
+			for (let i = 0; i < this.attractors.length; i++) {
+				if (this.attractors[i].isMouseOver(this.initMousePressX,
+					this.initMousePressY)) {
+						this.mouseGrab = true;
+						this.mouseGrabbed = this.attractors[i];
+						this.mouseGrabOffsetX = this.finalMousePressX - this.mouseGrabbed.position.x;
+						this.mouseGrabOffsetY = this.finalMousePressY - this.mouseGrabbed.position.y;
+						break;
+					}
+			}
+
 			this.mouseDown = true;
 		}
 	});
 
 	window.addEventListener('mouseup', (event) => {
-		if (!this.mouseOut && this.mouseDown) {
+		if (!this.mouseOut && this.mouseDown && !this.mouseGrab) {
 			var mass = parseInt(document.getElementById("rangeMass").value);
 			var radius = parseInt(document.getElementById("rangeRadius").value);
 			var position = new Pair(this.initMousePressX, this.initMousePressY);
 			var velocity = new Pair((this.finalMousePressX - this.initMousePressX) / 40,
-															(this.finalMousePressY - this.initMousePressY) / 40);
+									(this.finalMousePressY - this.initMousePressY) / 40);
 			var ball = new Ball(this, position, velocity, radius, mass);
 			this.balls.push(ball);
 		}
 		this.mouseDown = false;
+		this.mouseGrab = false;
+		this.mouseGrabbed = null;
 	});
 
 	this.canvas.addEventListener('mousemove', (event) => {
@@ -66,6 +82,11 @@ function World(container) {
 		var scaleY = this.canvas.height / rect.height;
 		this.finalMousePressX = (event.pageX - rect.left) * scaleX;
 		this.finalMousePressY = (event.pageY - rect.top) * scaleY;
+
+		if (this.mouseGrab) {
+			this.mouseGrabbed.position.x = this.finalMousePressX - this.mouseGrabOffsetX;
+			this.mouseGrabbed.position.y = this.finalMousePressY - this.mouseGrabOffsetY;
+		}
 		this.render();
 	});
 	container.insertBefore(this.canvas, container.childNodes[0]);
@@ -115,8 +136,10 @@ World.prototype.render = function() {
 					this.context.beginPath();
 					this.context.lineWidth = thickness > 2 ? 2 : thickness;
 					this.context.strokeStyle = "#003E3E";
-					this.context.moveTo(this.balls[b1].position.x, this.balls[b1].position.y);
-					this.context.lineTo(this.balls[b2].position.x, this.balls[b2].position.y);
+					this.context.moveTo(this.balls[b1].position.x,
+						this.balls[b1].position.y);
+					this.context.lineTo(this.balls[b2].position.x,
+						this.balls[b2].position.y);
 					this.context.stroke();
 				}
 			}
@@ -132,7 +155,7 @@ World.prototype.render = function() {
 	}
 
 	var radius = parseInt(document.getElementById("rangeRadius").value);
-	if (!this.mouseOut) {
+	if (!this.mouseOut && !this.mouseGrab) {
 		if (this.mouseDown) {
 			this.context.beginPath();
 			this.context.lineWidth = 1;
@@ -142,12 +165,14 @@ World.prototype.render = function() {
 			this.context.stroke();
 
 			this.context.beginPath();
-			this.context.arc(this.initMousePressX, this.initMousePressY, radius, 0, 2*Math.PI);
+			this.context.arc(this.initMousePressX, this.initMousePressY,
+				radius, 0, 2*Math.PI);
 			this.context.stroke();
 		} else {
 			this.context.beginPath();
 			this.context.lineWidth = 1;
-			this.context.arc(this.finalMousePressX, this.finalMousePressY, radius, 0, 2*Math.PI);
+			this.context.arc(this.finalMousePressX, this.finalMousePressY,
+				radius, 0, 2*Math.PI);
 			this.context.strokeStyle = "#cfffff";
 			this.context.stroke();
 		}
