@@ -10,6 +10,10 @@
 		<script type="text/javascript" src="World.js"></script>
 		<script type="text/javascript">
 			var world;
+			function getRndInteger(min, max) {
+				return Math.floor(Math.random() * (max - min + 1) ) + min;
+			}
+
 			function updateBallViewer(context) {
 				context.clearRect(0, 0, 200, 200);
 				context.fillStyle = "#003E3E";
@@ -20,6 +24,8 @@
 
 			window.addEventListener("load", function (event) {
 				world = new World(document.getElementById("canvasDiv"));
+				world.initialize();
+
 				var checkBoxLines = document.getElementById("checkBoxLines");
 				var rangeRadius = document.getElementById("rangeRadius");
 				var rangeMass = document.getElementById("rangeMass");
@@ -86,7 +92,7 @@
 																<label for="checkBoxLines">lines</label>
 														</td>
 														<td>
-																<input type="checkbox" id="checkBoxLines" name="checkBoxLines"></input>
+																<input type="checkbox" id="checkBoxLines" name="checkBoxLines" checked></input>
 														</td>
 													</tr>
 													<tr>
@@ -122,6 +128,7 @@
 											</table>
 										</td>
 									</tr>
+								</tbody>
 							</table>
 						</div>
 					</td>

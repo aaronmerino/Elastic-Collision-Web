@@ -26,12 +26,18 @@ Attractor.prototype.render = function() {
 
 Attractor.prototype.attractBalls = function() {
     var balls = this.world.balls;
-
+    /* TODO: spazzing ballz happens when they touch near the centre!!!!!
+    ** need to fix this !!!!! URGENT!!! DANGER!!!
+    ** ALSO, DONT DRINK COFFEE!!!
+    */
     for (let i = 0; i < balls.length; i++) {
         let ball = balls[i];
         let dx = this.position.x - ball.position.x;
 		let dy = this.position.y - ball.position.y;
 		let dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist == 0) {
+            dist = 0.01;
+        }
 		ball.velocity.x += dx / (dist*dist / this.mass);
 		ball.velocity.y += dy / (dist*dist / this.mass);
     }

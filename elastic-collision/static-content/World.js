@@ -4,8 +4,6 @@
 function World(container) {
 	this.balls = [];
 	this.attractors = [];
-	this.attractors.push(new Attractor(this, new Pair(1000, 200), 2));
-	this.attractors.push(new Attractor(this, new Pair(400, 200), 2));
 
 	this.drawLines = true;
 	this.canvas = document.createElement("canvas");
@@ -92,13 +90,19 @@ function World(container) {
 	container.insertBefore(this.canvas, container.childNodes[0]);
 }
 
+World.prototype.initialize = function() {
+	this.attractors.push(new Attractor(this, new Pair(this.width/2 - 200, this.height/2), 2));
+	this.attractors.push(new Attractor(this, new Pair(this.width/2 + 200, this.height/2), 2));
+	this.createRandomBalls(20);
+}
+
 World.prototype.clearBalls = function() {
 	this.balls = [];
 }
 
 World.prototype.resizeCanvas = function() {
 	this.width = window.innerWidth - 400;
-	this.height = window.innerHeight - 100;
+	this.height = window.innerHeight - 50;
 	this.canvas.style.width = this.width + 'px';
 	this.canvas.style.height = this.height + 'px';
 	this.canvas.width = this.width;
@@ -180,12 +184,12 @@ World.prototype.render = function() {
 }
 
 World.prototype.createRandomBalls = function(amount) {
-	for(let i = 0; i < 5; i++) {
-		let rndPosX = getRndInteger(100, worldWidth);
-		let rndPosY = getRndInteger(100, worldHeight);
-		let rndVelX = getRndInteger(1, 3) * (Math.round(Math.random()) * 2 - 1);
-		let rndVelY = getRndInteger(1, 3) * (Math.round(Math.random()) * 2 - 1);
-		let rndRadius = getRndInteger(10, 40);
+	for(let i = 0; i < amount; i++) {
+		let rndPosX = getRndInteger(100, this.width);
+		let rndPosY = getRndInteger(100, this.height);
+		let rndVelX = getRndInteger(1, 2) * (Math.round(Math.random()) * 2 - 1);
+		let rndVelY = getRndInteger(1, 2) * (Math.round(Math.random()) * 2 - 1);
+		let rndRadius = 2;
 		let b = new Ball(this, new Pair(rndPosX, rndPosY), new Pair(rndVelX, rndVelY), rndRadius, 10);
 		this.balls.push(b);
 	}
