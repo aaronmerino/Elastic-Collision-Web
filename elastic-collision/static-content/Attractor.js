@@ -17,6 +17,8 @@ Attractor.prototype.isMouseOver = function(mouseX, mouseY) {
 
 Attractor.prototype.render = function() {
 	this.world.context.strokeStyle = "#003872";
+    this.world.context.shadowBlur = 10;
+    this.world.context.shadowColor = "#003E3E";
 	this.world.context.beginPath();
     this.world.context.lineWidth = 2;
 	this.world.context.arc(this.position.x, this.position.y, this.radius, 0,
@@ -35,6 +37,11 @@ Attractor.prototype.attractBalls = function() {
         let dx = this.position.x - ball.position.x;
 		let dy = this.position.y - ball.position.y;
 		let dist = Math.sqrt(dx*dx + dy*dy);
+
+        if (dist > 800) {
+            continue;
+        }
+
         if (dist == 0) {
             dist = 0.01;
         }

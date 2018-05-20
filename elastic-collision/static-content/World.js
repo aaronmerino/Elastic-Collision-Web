@@ -93,7 +93,7 @@ function World(container) {
 World.prototype.initialize = function() {
 	this.attractors.push(new Attractor(this, new Pair(this.width/2 - 200, this.height/2), 2));
 	this.attractors.push(new Attractor(this, new Pair(this.width/2 + 200, this.height/2), 2));
-	this.createRandomBalls(20);
+	this.createRandomBalls(3);
 }
 
 World.prototype.clearBalls = function() {
@@ -140,6 +140,8 @@ World.prototype.render = function() {
 					this.context.beginPath();
 					this.context.lineWidth = thickness > 2 ? 2 : thickness;
 					this.context.strokeStyle = "#003E3E";
+					this.context.shadowBlur = 0;
+					//this.context.shadowColor = "#003E3E";
 					this.context.moveTo(this.balls[b1].position.x,
 						this.balls[b1].position.y);
 					this.context.lineTo(this.balls[b2].position.x,
@@ -159,6 +161,7 @@ World.prototype.render = function() {
 	}
 
 	var radius = parseInt(document.getElementById("rangeRadius").value);
+	this.context.shadowBlur = 0;
 	if (!this.mouseOut && !this.mouseGrab) {
 		if (this.mouseDown) {
 			this.context.beginPath();
@@ -187,9 +190,11 @@ World.prototype.createRandomBalls = function(amount) {
 	for(let i = 0; i < amount; i++) {
 		let rndPosX = getRndInteger(100, this.width);
 		let rndPosY = getRndInteger(100, this.height);
-		let rndVelX = getRndInteger(1, 2) * (Math.round(Math.random()) * 2 - 1);
-		let rndVelY = getRndInteger(1, 2) * (Math.round(Math.random()) * 2 - 1);
-		let rndRadius = 2;
+		//let rndVelX = getRndInteger(1, 2) * (Math.round(Math.random()) * 2 - 1);
+		//let rndVelY = getRndInteger(1, 2) * (Math.round(Math.random()) * 2 - 1);
+		let rndVelX = 0;
+		let rndVelY = 0;
+		let rndRadius = 5;
 		let b = new Ball(this, new Pair(rndPosX, rndPosY), new Pair(rndVelX, rndVelY), rndRadius, 10);
 		this.balls.push(b);
 	}

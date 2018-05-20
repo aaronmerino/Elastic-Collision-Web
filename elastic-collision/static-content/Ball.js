@@ -6,17 +6,41 @@ function Ball(world, position, velocity, radius, mass) {
 	this.position = position;
 	this.velocity = velocity;
 	this.radius = radius;
+	this.motionTrailLength = 3;
+	this.motionTrailListPositions = [];
 	this.mass = mass;
 }
 
 Ball.prototype.render = function() {
 	this.world.context.fillStyle = "#003E3E";
+	this.world.context.shadowBlur = 10;
+	this.world.context.shadowColor = "#003E3E";
 	this.world.context.beginPath();
 	this.world.context.arc(this.position.x, this.position.y, this.radius, 0, 2*Math.PI);
 	this.world.context.fill();
+
+	for (let i = 0; i < this.motionTrailListPositions.length; i++) {
+		let ratio = ((i + 1) / this.motionTrailListPositions.length)/1.25;
+		this.world.context.fillStyle = "#003E3E";
+		this.world.context.shadowBlur = 7;
+		this.world.context.shadowColor = "#003E3E";
+		this.world.context.beginPath();
+		this.world.context.arc(this.motionTrailListPositions[i].x, this.motionTrailListPositions[i].y, this.radius*ratio, 0, 2*Math.PI);
+		this.world.context.fill();
+	}
+}
+
+Ball.prototype.addMotionTrailPosition = function() {
+	this.motionTrailListPositions.push(new Pair(this.position.x, this.position.y));
+
+	if (this.motionTrailListPositions.length > this.motionTrailLength) {
+		this.motionTrailListPositions.shift();
+	}
 }
 
 Ball.prototype.move = function() {
+	this.addMotionTrailPosition();
+
 	this.position.x += this.velocity.x;
 	this.position.y += this.velocity.y;
 

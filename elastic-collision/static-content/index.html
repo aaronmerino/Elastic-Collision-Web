@@ -17,6 +17,8 @@
 			function updateBallViewer(context) {
 				context.clearRect(0, 0, 200, 200);
 				context.fillStyle = "#003E3E";
+				context.shadowBlur = 10;
+				context.shadowColor = "#003E3E";
 				context.beginPath();
 				context.arc(200/2, 200/2, document.getElementById("rangeRadius").value, 0, 2*Math.PI);
 				context.fill();
@@ -60,9 +62,9 @@
 
 				updateBallViewer(document.getElementById("canvasBallViewer").getContext("2d"));
 				setInterval(() => {
-					world.tick();
 					world.render();
-				}, 10);
+					world.tick();
+				}, 1000/120);
 			});
 		</script>
 	</head>
@@ -100,7 +102,7 @@
 															<label for="rangeRadius">radius</label>
 														</td>
 														<td>
-															<input type="range" id="rangeRadius" name="rangeRadius" value="1" min="1" max="50"></input>
+															<input type="range" id="rangeRadius" name="rangeRadius" value="5" min="1" max="50"></input>
 														</td>
 														<td>
 															<output for="rangeRadius" id="labelRadius" name="labelRadius" value="1"></output> <br>
@@ -111,7 +113,7 @@
 															<label for="rangeMass">mass</label>
 														</td>
 														<td>
-															<input type="range" id="rangeMass" name="rangeMass" value="1" min="1" max="50"></input>
+															<input type="range" id="rangeMass" name="rangeMass" value="5" min="1" max="50"></input>
 														</td>
 														<td>
 															<output id="labelMass" name="labelMass" value="1"></output> <br>
