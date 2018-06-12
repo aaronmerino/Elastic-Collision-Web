@@ -213,14 +213,22 @@ World.prototype.render = function() {
 			this.context.arc(this.initMousePressX, this.initMousePressY,
 				radius * this.zoomMultiplier, 0, 2*Math.PI);
 			this.context.stroke();
-		} else {
-			this.context.beginPath();
-			this.context.lineWidth = 1;
-			this.context.arc(this.finalMousePressX, this.finalMousePressY,
-				radius * this.zoomMultiplier, 0, 2*Math.PI);
-			this.context.strokeStyle = "#cfffff";
-			this.context.stroke();
 		}
+	}
+	if (!this.mouseGrab) {
+		this.context.beginPath();
+		this.context.lineWidth = 1;
+		this.context.arc(this.finalMousePressX, this.finalMousePressY,
+			radius * this.zoomMultiplier, 0, 2*Math.PI);
+		this.context.strokeStyle = "#cfffff";
+		this.context.stroke();
+	} else {
+		this.context.beginPath();
+		this.context.lineWidth = 1;
+		this.context.arc((this.mouseGrabbed.position.x - this.panOffsetX) * this.zoomMultiplier, (this.mouseGrabbed.position.y - this.panOffsetY) * this.zoomMultiplier,
+			this.mouseGrabbed.radius * this.zoomMultiplier, 0, 2*Math.PI);
+		this.context.strokeStyle = "#CC00CC";
+		this.context.stroke();
 	}
 }
 
