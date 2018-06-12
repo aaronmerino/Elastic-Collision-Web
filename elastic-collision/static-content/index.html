@@ -27,15 +27,18 @@
 			window.addEventListener("load", function (event) {
 				world = new World(document.getElementById("canvasDiv"));
 				world.initialize();
-
+				world.setZoom(1);
 				var checkBoxLines = document.getElementById("checkBoxLines");
 				var rangeRadius = document.getElementById("rangeRadius");
 				var rangeMass = document.getElementById("rangeMass");
+				var rangeZoom = document.getElementById("rangeZoom");
 				var labelRadius = document.getElementById("labelRadius");
 				var labelMass = document.getElementById("labelMass");
+				var labelZoom = document.getElementById("labelZoom");
 
 				labelRadius.innerHTML = rangeRadius.value;
 				labelMass.innerHTML = rangeMass.value;
+				labelZoom.innerHTML = rangeZoom.value;
 				world.drawLines = checkBoxLines.checked;
 
 				rangeRadius.addEventListener('input', function () {
@@ -45,6 +48,13 @@
 
 				rangeMass.addEventListener('input', function () {
 					labelMass.innerHTML = rangeMass.value;
+				});
+
+				rangeZoom.addEventListener('input', function () {
+
+					labelZoom.innerHTML = rangeZoom.value;
+					world.setZoom(rangeZoom.value);
+
 				});
 
 				checkBoxLines.addEventListener('change', function () {
@@ -117,6 +127,17 @@
 														</td>
 														<td>
 															<output id="labelMass" name="labelMass" value="1"></output> <br>
+														</td>
+													</tr>
+													<tr>
+														<td>
+															<label for="rangeZoom">zoom</label>
+														</td>
+														<td>
+															<input type="range" id="rangeZoom" name="rangeZoom" value="1" step="0.1" min="1" max="10"></input>
+														</td>
+														<td>
+															<output id="labelZoom" name="labelZoom" value="1"></output> <br>
 														</td>
 													</tr>
 													<tr>

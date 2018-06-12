@@ -16,7 +16,7 @@ Ball.prototype.render = function() {
 	this.world.context.shadowBlur = 10;
 	this.world.context.shadowColor = "#003E3E";
 	this.world.context.beginPath();
-	this.world.context.arc(this.position.x, this.position.y, this.radius, 0, 2*Math.PI);
+	this.world.context.arc((this.position.x - this.world.panOffsetX) * this.world.zoomMultiplier, (this.position.y - this.world.panOffsetY) * this.world.zoomMultiplier, this.radius * this.world.zoomMultiplier, 0, 2*Math.PI);
 	this.world.context.fill();
 
 	for (let i = 0; i < this.motionTrailListPositions.length; i++) {
@@ -25,7 +25,7 @@ Ball.prototype.render = function() {
 		this.world.context.shadowBlur = 7;
 		this.world.context.shadowColor = "#003E3E";
 		this.world.context.beginPath();
-		this.world.context.arc(this.motionTrailListPositions[i].x, this.motionTrailListPositions[i].y, this.radius*ratio, 0, 2*Math.PI);
+		this.world.context.arc((this.motionTrailListPositions[i].x - this.world.panOffsetX) * this.world.zoomMultiplier, (this.motionTrailListPositions[i].y - this.world.panOffsetY) * this.world.zoomMultiplier, this.radius * ratio * this.world.zoomMultiplier, 0, 2*Math.PI);
 		this.world.context.fill();
 	}
 }

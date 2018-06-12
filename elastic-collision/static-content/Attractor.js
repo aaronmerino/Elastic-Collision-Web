@@ -21,7 +21,7 @@ Attractor.prototype.render = function() {
     this.world.context.shadowColor = "#003E3E";
 	this.world.context.beginPath();
     this.world.context.lineWidth = 2;
-	this.world.context.arc(this.position.x, this.position.y, this.radius, 0,
+	this.world.context.arc((this.position.x - this.world.panOffsetX) * this.world.zoomMultiplier, (this.position.y - this.world.panOffsetY) * this.world.zoomMultiplier, this.radius * this.world.zoomMultiplier, 0,
         2*Math.PI);
 	this.world.context.stroke();
 }
