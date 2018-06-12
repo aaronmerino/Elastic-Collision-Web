@@ -163,6 +163,10 @@ World.prototype.setZoom = function(zoom) {
 
 World.prototype.render = function() {
 	this.context.clearRect(0, 0, this.width, this.height);
+	this.context.rect((0 - this.panOffsetX) * this.zoomMultiplier, (0 - this.panOffsetY) * this.zoomMultiplier,
+		this.width * this.zoomMultiplier, this.height * this.zoomMultiplier);
+	this.context.strokeStyle = "#CC00CC";
+	this.context.stroke();
 
 	if (this.drawLines) {
 		for (let b1 = 0; b1 < this.balls.length; b1++) {
